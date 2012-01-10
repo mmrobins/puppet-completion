@@ -4,8 +4,11 @@ require 'puppet/util/settings'
 Puppet::Face.define(:completion, '0.0.1') do
   copyright "Puppet Labs", 2011
   license   "Apache 2 license; see COPYING"
+  summary "Takes commmand line arguments and returns bash completion information"
   action(:bash) do
     when_invoked do |*args|
+      # the puppet/interface/action adds an options hash on the end when the arity isn't clear
+      args.pop if args.last == {}
       subcommand = args.shift || ''
       choices = []
       search_pattern = nil
